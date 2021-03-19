@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_022602) do
+ActiveRecord::Schema.define(version: 2021_03_19_025421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,10 +22,11 @@ ActiveRecord::Schema.define(version: 2021_03_19_022602) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "user_id"
+    t.integer "question_id"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_answers_on_user_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -73,9 +74,19 @@ ActiveRecord::Schema.define(version: 2021_03_19_022602) do
     t.integer "user_id"
     t.string "title"
     t.text "description"
+    t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.integer "question_id"
+    t.string "name"
+    t.string "hexcolor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_tags_on_question_id"
   end
 
   create_table "user_account_accesses", force: :cascade do |t|
