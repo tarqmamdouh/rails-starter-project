@@ -5,4 +5,6 @@ class User < ApplicationRecord
 
   has_many :user_account_accesses
   has_many :accounts, through: :user_account_accesses
+  has_many :questions
+  has_many :answers
 end
