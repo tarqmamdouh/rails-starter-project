@@ -1,13 +1,22 @@
-development:
+default: &default
   adapter: postgresql
-  database: starter_project_dev
+  encoding: unicode
   host: localhost
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: expert_advice_app
+  password: <%= ENV.fetch("db_password") %>
+
+
+development:
+  <<: *default
+  database: expert_advice_app_development
   timeout: 5000
 
 test:
-  adapter: postgresql
-  database: starter_project_test
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: localhost
+  <<: *default
+  database: expert_advice_app_test
   min_messages: WARNING
+
+production:
+  <<: *default
+  database: expert_advice_app_production
