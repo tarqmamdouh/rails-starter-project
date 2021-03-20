@@ -1,5 +1,5 @@
 class QuestionSerializer < ActiveModel::Serializer
-  attributes :id, :slug, :title, :description, :tags, :author
+  attributes :id, :slug, :title, :description, :tags, :author, :created_at
 
   def tags
     object.tags.map(&:name).join(', ')
