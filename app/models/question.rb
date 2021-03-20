@@ -2,11 +2,18 @@ class Question < ApplicationRecord
   default_scope { order(created_at: :desc) }
   validates :title, presence: true
   validates :description, presence: true
-  validates :slug, presence: true, slug: true, uniqueness: {case_sensitive: false}
+  validates :slug, :uniqueness => {:case_sensitive => false}
+  validates_associated :tags
+  before_validation :set_slug, only: [:create, :update]
 
   belongs_to :user
-  has_many :answers, dependent :destroy
-  has_many :tags
+  has_many :taggings, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :tags, through: :taggings
+
+  def to_param
+    "#{slug}"
+  end
 
   def tags_string=(string)
     self.tags = string.split(',').map do |name|
@@ -14,7 +21,9 @@ class Question < ApplicationRecord
     end
   end
 
-  def tags_string
-    tags.map(&:name).join(', ')
+  private
+
+  def set_slug
+    self.slug = title.to_s.parameterize
   end
 end
