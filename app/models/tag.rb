@@ -1,3 +1,6 @@
 class Tag < ApplicationRecord
-  belongs_to :question
+  validates :name, presence: true, uniqueness: {case_sensitive: false}
+
+  has_many :taggings, dependent: :destroy
+  has_many :questions, through: :taggings
 end
