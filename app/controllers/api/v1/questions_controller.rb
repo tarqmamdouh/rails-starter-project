@@ -22,6 +22,15 @@ module Api
         end
       end
 
+      def show
+        @question = question
+        if @question.present?
+          render json: @question, status: :ok
+        else
+          render json: {}, status: :not_found
+        end
+      end
+
       def update
         if question.update(question_params)
           render json: question, status: :ok
