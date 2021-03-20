@@ -5,8 +5,8 @@ RSpec.describe Question, type: :model do
 
   it 'order is by date descending' do
     user = FactoryBot.create(:user)
-    create :question, title: 'first', description: 'first', user_id: user.id, created_at: 2.day.ago
-    create :question, title: 'second', description: 'second', user_id: user.id, created_at: 1.days.ago
+    create :question, title: 'first', description: 'first', tags_string: 'abc', user_id: user.id, created_at: 2.day.ago
+    create :question, title: 'second', description: 'second', tags_string: 'efg', user_id: user.id, created_at: 1.days.ago
 
     expect(Question.first.title).to eq('second')
   end

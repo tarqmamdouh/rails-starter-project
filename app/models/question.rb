@@ -3,8 +3,9 @@ class Question < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
   validates :slug, presence: true, uniqueness: { case_sensitive: false }
-  validates_associated :tags, presence: true
+  validates_associated :tags
   before_validation :set_slug, only: %i[create update]
+  validates_presence_of :tags
 
   belongs_to :user
   has_many :taggings, dependent: :destroy
@@ -23,10 +24,6 @@ class Question < ApplicationRecord
 
   def tags_string
     tags.map(&:name).join(', ')
-  end
-
-  def tags_inserted
-    return true unless tags.map(&:name).join(', ') == ""
   end
 
   private
