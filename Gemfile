@@ -24,7 +24,7 @@ gem 'api-pagination'
 group :development, :test do
   gem 'pry'
   gem 'rspec-rails'
-  gem 'rubocop'
+  gem 'rubocop', '0.59.2'
 end
 
 group :development do
@@ -34,6 +34,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
-gem "figaro", "~> 1.2"
+gem 'figaro', '~> 1.2'
 
-gem "will_paginate", "~> 3.3"
+gem 'will_paginate', '~> 3.3'

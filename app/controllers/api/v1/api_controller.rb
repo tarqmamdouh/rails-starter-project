@@ -5,7 +5,7 @@ module Api::V1
     end
 
     private
-    
+
     def pagination_dict(object)
       {
         current_page: object.current_page,

@@ -2,13 +2,13 @@ class QuestionSerializer < ActiveModel::Serializer
   attributes :id, :slug, :title, :description, :tags, :author
 
   def tags
-    self.object.tags.map(&:name).join(', ')
+    object.tags.map(&:name).join(', ')
   end
 
   def author
     {
-      author_id: self.object.user.id, 
-      author_email: self.object.user.email
+      author_id: object.user.id,
+      author_email: object.user.email
     }
   end
 end

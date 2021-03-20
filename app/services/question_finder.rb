@@ -1,5 +1,5 @@
 module QuestionFinder
-  extend self
+  module_function
 
   def run(slug)
     Question.find_by(slug: slug)

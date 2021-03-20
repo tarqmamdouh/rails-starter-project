@@ -2,9 +2,9 @@ class Question < ApplicationRecord
   default_scope { order(created_at: :desc) }
   validates :title, presence: true
   validates :description, presence: true
-  validates :slug, :uniqueness => {:case_sensitive => false}
+  validates :slug, uniqueness: { case_sensitive: false }
   validates_associated :tags
-  before_validation :set_slug, only: [:create, :update]
+  before_validation :set_slug, only: %i[create update]
 
   belongs_to :user
   has_many :taggings, dependent: :destroy
@@ -12,7 +12,7 @@ class Question < ApplicationRecord
   has_many :tags, through: :taggings
 
   def to_param
-    "#{slug}"
+    slug.to_s
   end
 
   def tags_string=(string)
