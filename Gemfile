@@ -35,3 +35,5 @@ group :development do
 end
 
 gem "figaro", "~> 1.2"
+
+gem "will_paginate", "~> 3.3"
