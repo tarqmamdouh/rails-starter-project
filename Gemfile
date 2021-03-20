@@ -23,8 +23,11 @@ gem 'api-pagination'
 
 group :development, :test do
   gem 'pry'
-  gem 'rspec-rails'
   gem 'rubocop', '0.59.2'
+  gem 'rspec-rails'
+    gem 'factory_bot_rails'
+    gem 'shoulda-matchers'
+  	gem 'shoulda'
 end
 
 group :development do
