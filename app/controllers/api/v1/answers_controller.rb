@@ -38,10 +38,10 @@ module Api
       private
 
       def answer_params
-        params.require(:data).require(:attributes).permit(:body).merge({
+        params.require(:data).require(:attributes).permit(:body).merge(
           user_id: cureent_user.id,
           question_id: question.id
-        })
+        )
       end
 
       def question
