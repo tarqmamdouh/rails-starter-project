@@ -25,10 +25,10 @@ group :development, :test do
   gem 'pry'
   gem 'rubocop', '0.59.2'
   gem 'rspec-rails'
-    gem 'factory_bot_rails'
-    gem 'shoulda-matchers'
-  	gem 'shoulda'
-    gem 'faker', require: false
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers'
+  gem 'shoulda'
+  gem 'faker', require: false # Fixes an issue of localization
 end
 
 group :development do

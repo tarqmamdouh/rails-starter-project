@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :users
       resources :questions, except: :create
       post '/ask', to: 'questions#create'
+      get 'questions/tagged_with'
       resources :answers
     end
   end
