@@ -2,7 +2,7 @@ module Api
   module V1
     class QuestionsController < Api::V1::ApiController
       before_action :doorkeeper_authorize!, only: :create
-      before_action :authorize_owner, only: %i[update destroy]
+      before_action :authorized_owner, only: %i[update destroy]
 
       def index
         info = {
@@ -18,7 +18,7 @@ module Api
         if @question.save
           render json: @question, status: :ok
         else
-          render json: {}, status: :unprocessable_entity, error: error_message
+          render json: {errors: @question.errors.full_messages}, status: :unprocessable_entity
         end
       end
 
@@ -40,7 +40,7 @@ module Api
         if question.update(question_params)
           render json: question, status: :ok
         else
-          render json: {}, status: :unprocessable_entity, error: error_message
+          render json: {errors: question.errors.full_messages}, status: :unprocessable_entity
         end
       end
 
@@ -52,19 +52,19 @@ module Api
       private
 
       def question_params
-        params.require(:data).require(:attributes).permit(:title, :description, :tags_string).merge(user_id: cureent_user.id)
+        params.require(:data).require(:attributes).permit(:title, :description, :tags_string).merge(user_id: current_user.id)
       end
 
       def question
         QuestionFinder.run(params[:id])
       end
 
-      def authorize_owner
-        current_user.questions.include?(question)
-      end
-
-      def error_message
-        question.errors.full_messages.to_sentence
+      def authorized_owner
+        if current_user.present?
+          current_user.questions.include?(question)
+        else
+          render json: {}, status: :unauthorized
+        end
       end
     end
   end

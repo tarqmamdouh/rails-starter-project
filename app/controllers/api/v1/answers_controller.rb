@@ -18,7 +18,7 @@ module Api
         if @answer.save
           render json: @answer, status: :ok
         else
-          render json: {}, status: :unprocessable_entity, error: error_message
+          render json: {errors: @answer.errors.full_messages}, status: :unprocessable_entity
         end
       end
 
@@ -26,7 +26,7 @@ module Api
         if answer.update(answer_params)
           render json: answer, status: :ok
         else
-          render json: {}, status: :unprocessable_entity, error: error_message
+          render json: {errors: answer.errors.full_messages}, status: :unprocessable_entity
         end
       end
 
@@ -52,12 +52,12 @@ module Api
         Answer.find_by_id(params[:id])
       end
 
-      def authorize_owner
-        current_user.answers.include?(answer)
-      end
-
-      def error_message
-        question.errors.full_messages.to_sentence
+      def authorized_owner
+        if current_user.present?
+          current_user.questions.include?(question)
+        else
+          render json: {}, status: :unauthorized
+        end
       end
     end
   end
