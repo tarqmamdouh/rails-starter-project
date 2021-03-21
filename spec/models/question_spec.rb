@@ -30,13 +30,15 @@ RSpec.describe Question, type: :model do
     expect(question.tags_string).to eq 'abc, xyz'
   end
 
-  it 'filters questions by specific tag' do
+  it 'filters by specific tags give' do
     tag_abc = build :tag, name: 'abc'
     tag_xyz = build :tag, name: 'xyz'
 
-    question = build :question, tags: [tag_abc, tag_xyz]
+    create :question, tags: [tag_abc]
+    create :question, tags: [tag_abc]
+    create :question, tags: [tag_xyz]
 
-    expect(question.tags_string).to eq 'abc, xyz'
+    expect(Question.all_tagged_with(['abc']).length).to eq 2
   end
 
   describe '(validations)' do
