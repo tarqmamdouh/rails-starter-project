@@ -31,6 +31,11 @@ module Api
         end
       end
 
+      def search
+        filtered_questions = Question.all_tagged_with(params[:tags])
+        render json: filtered_questions, status: :ok
+      end
+
       def update
         if question.update(question_params)
           render json: question, status: :ok

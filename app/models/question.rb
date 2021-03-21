@@ -12,6 +12,15 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :tags, through: :taggings
 
+  ## Performs a join query to get questions tagged with specified tags
+  #
+  # @param tags [Array] an Array of strings, each string specify the tag that one or many
+  # questions are tagged with (1 string required at least)
+  # @return distinct [Array<Question>] of the questions whose tagged with one or more of search tags
+  def self.all_tagged_with(tags)  
+    Question.joins(:tags).where('tags.name IN (?)', tags).uniq
+  end
+
   def to_param
     slug.to_s
   end
