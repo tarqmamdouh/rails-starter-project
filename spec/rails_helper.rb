@@ -39,6 +39,9 @@ RSpec.configure do |config|
 
   # Include FactoryBot stuff
   config.include FactoryBot::Syntax::Methods
+  config.before(:suite) do
+    Faker::Config.locale = 'en'
+  end
 
   #Add Shoulda matchers context
   config.include(Shoulda::Matchers::ActiveModel, type: :model)

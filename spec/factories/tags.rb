@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :tag do
-    name { "name" }
-    hexcolor { "#FFFFF" }
+    name { Faker::Creature::Cat.registry }
+    hexcolor { Faker::Color.hex_color }
   end
 end

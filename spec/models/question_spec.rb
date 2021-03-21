@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Question, type: :model do
   let(:question) { create :question }
+  let(:user) {create :user}
 
   it 'order is by date descending' do
-    user = FactoryBot.create(:user)
     create :question, title: 'first', description: 'first', tags_string: 'abc', user_id: user.id, created_at: 2.day.ago
     create :question, title: 'second', description: 'second', tags_string: 'efg', user_id: user.id, created_at: 1.days.ago
 
@@ -22,8 +22,15 @@ RSpec.describe Question, type: :model do
   end
 
   it 'serializes tags to a comma-separated string' do
-    user = FactoryBot.create(:user)
-    question = FactoryBot.create(:question)
+    tag_abc = build :tag, name: 'abc'
+    tag_xyz = build :tag, name: 'xyz'
+
+    question = build :question, tags: [tag_abc, tag_xyz]
+
+    expect(question.tags_string).to eq 'abc, xyz'
+  end
+
+  it 'filters questions by specific tag' do
     tag_abc = build :tag, name: 'abc'
     tag_xyz = build :tag, name: 'xyz'
 
