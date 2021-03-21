@@ -18,7 +18,7 @@ module Api
         if @question.save
           render json: @question, status: :ok
         else
-          render json: {errors: @question.errors.full_messages}, status: :unprocessable_entity
+          render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
@@ -40,7 +40,7 @@ module Api
         if question.update(question_params)
           render json: question, status: :ok
         else
-          render json: {errors: question.errors.full_messages}, status: :unprocessable_entity
+          render json: { errors: question.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
