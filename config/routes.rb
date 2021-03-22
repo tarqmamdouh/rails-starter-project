@@ -6,12 +6,8 @@ Rails.application.routes.draw do
       
       get '/users/me', to: 'users#me'
       resources :users
-      
-      get '/questions/tagged_with'
-      resources :questions, except: [:create] do
-        resources :answers
-      end
-      post '/ask', to: 'questions#create'
+      resources :questions 
+      resources :answers
       resources :tags, only: :index
     end
   end

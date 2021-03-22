@@ -22,24 +22,24 @@ module Api
       end
 
       def show
-        @question = question
-        if @question.present?
-          render json: @question, status: :ok
+        if question.present?
+          render json: question, status: :ok
         else
           render json: {}, status: :not_found
         end
       end
 
       def update
-        if question.update(question_params)
-          render json: question, status: :ok
+        @question = Question.find_by(id: params[:id])
+        if @question.update(question_params)
+          render json: @question, status: :ok
         else
-          render json: question, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: @question, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
         end
       end
 
       def destroy
-        question.destroy
+        Question.find_by(id: params[:id]).destroy
         render json: {}, status: :no_content
       end
 
@@ -65,7 +65,7 @@ module Api
       end
 
       def question_params
-        params.require(:data).require(:attributes).permit(:title, :description, :tags_string).merge(user_id: current_user.id)
+        params.require(:data).require(:attributes).permit(:title, :description, :tagsstring).merge(user_id: current_user.id)
       end
 
       def question

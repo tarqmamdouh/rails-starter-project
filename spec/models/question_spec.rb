@@ -5,8 +5,8 @@ RSpec.describe Question, type: :model do
   let(:user) { create :user }
 
   it 'order is by date descending' do
-    create :question, title: 'first', description: 'first', tags_string: 'abc', user_id: user.id, created_at: 2.day.ago
-    create :question, title: 'second', description: 'second', tags_string: 'efg', user_id: user.id, created_at: 1.days.ago
+    create :question, title: 'first', description: 'first', tagsstring: 'abc', user_id: user.id, created_at: 2.day.ago
+    create :question, title: 'second', description: 'second', tagsstring: 'efg', user_id: user.id, created_at: 1.days.ago
 
     expect(Question.first.title).to eq('second')
   end
@@ -16,7 +16,7 @@ RSpec.describe Question, type: :model do
   end
 
   it 'deserializes tags from a comma-separated string' do
-    question = build :question, tags_string: 'abc, xyz'
+    question = build :question, tagsstring: 'abc, xyz'
 
     expect(question.tags.map(&:name)).to eq %w[abc xyz]
   end
@@ -27,7 +27,7 @@ RSpec.describe Question, type: :model do
 
     question = build :question, tags: [tag_abc, tag_xyz]
 
-    expect(question.tags_string).to eq 'abc, xyz'
+    expect(question.tagsstring).to eq 'abc, xyz'
   end
 
   it 'filters by specific tags give' do

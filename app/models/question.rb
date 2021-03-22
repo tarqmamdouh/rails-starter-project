@@ -25,13 +25,13 @@ class Question < ApplicationRecord
     slug.to_s
   end
 
-  def tags_string=(string)
+  def tagsstring=(string)
     self.tags = string.split(',').map do |name|
-      Tag.where(name: name.strip).first_or_create!
+      Tag.where(name: name.strip).first_or_create
     end
   end
 
-  def tags_string
+  def tagsstring
     tags.map(&:name).join(', ')
   end
 
