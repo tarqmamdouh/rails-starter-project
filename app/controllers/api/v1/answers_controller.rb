@@ -18,7 +18,7 @@ module Api
         if @answer.save
           render json: @answer, status: :ok
         else
-          render json: { errors: @answer.errors.full_messages }, status: :unprocessable_entity
+          render json: {}, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
         end
       end
 
@@ -26,7 +26,7 @@ module Api
         if answer.update(answer_params)
           render json: answer, status: :ok
         else
-          render json: { errors: answer.errors.full_messages }, status: :unprocessable_entity
+          render json: {}, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
         end
       end
 
