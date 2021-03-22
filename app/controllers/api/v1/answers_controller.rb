@@ -13,6 +13,14 @@ module Api
         render json: answers, status: :ok, params: info, meta: pagination_dict(answers)
       end
 
+      def show
+        if answer.present?
+          render json: answer, status: :ok
+        else
+          render json: {}, status: :not_found
+        end
+      end
+
       def create
         @answer = Answer.new(answer_params)
         if @answer.save
@@ -23,15 +31,16 @@ module Api
       end
 
       def update
-        if answer.update(answer_params)
-          render json: answer, status: :ok
+        @answer = Answer.find_by(id: params[:id])
+        if @answer.update(answer_params)
+          render json: @answer, status: :ok
         else
-          render json: {}, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: @answer, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
         end
       end
 
       def destroy
-        answer.destroy
+        Answer.find_by(id: params[:id]).destroy
         render json: {}, status: :no_content
       end
 
