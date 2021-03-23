@@ -2,7 +2,7 @@ module Api
   module V1
     class AnswersController < Api::V1::ApiController
       before_action :doorkeeper_authorize!, only: :create
-      before_action :authorize_owner, only: %i[update destroy]
+      before_action :authorized_owner, only: %i[update destroy]
 
       def index
         info = {
@@ -47,9 +47,9 @@ module Api
       private
 
       def answer_params
-        params.require(:data).require(:attributes).permit(:body).merge(
-          user_id: cureent_user.id,
-          question_id: question.id
+        params.require(:data).require(:attributes).permit(:body, :question_id).merge(
+          user_id: current_user.id,
+          question_id: params.dig(:data, :relationships, :question, :data, :id)
         )
       end
 
