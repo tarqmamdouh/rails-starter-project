@@ -21,7 +21,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
     end
 
     describe 'Cannot edit questions' do
-      before { put "/api/v1/questions/#{question.slug}" }
+      before { put "/api/v1/questions/#{question.id}" }
 
       it 'returns status code 401' do
         expect(response).to have_http_status(401)
@@ -29,7 +29,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
     end
 
     describe 'Cannot ask a question' do
-      before { post '/api/v1/ask' }
+      before { post '/api/v1/questions' }
 
       it 'returns status code 401' do
         expect(response).to have_http_status(401)
@@ -37,7 +37,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
     end
 
     describe 'Cannot delete questions' do
-      before { delete "/api/v1/questions/#{question.slug}" }
+      before { delete "/api/v1/questions/#{question.id}" }
 
       it 'returns status code 401' do
         expect(response).to have_http_status(401)
@@ -56,7 +56,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
           valid_data = attributes_for :question
 
           expect do
-            post '/api/v1/ask', params: { data: { attributes: valid_data } }, headers: { 'Authorization': 'Bearer ' + token.token }
+            post '/api/v1/questions', params: { data: { attributes: valid_data } }, headers: { 'Authorization': 'Bearer ' + token.token }
           end.to change(Question, :count).by(1)
         end
       end
@@ -66,7 +66,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
           invalid_data = attributes_for :question, title: ''
 
           expect do
-            post '/api/v1/ask', params: { data: { attributes: invalid_data } }, headers: { 'Authorization': 'Bearer ' + token.token }
+            post '/api/v1/questions', params: { data: { attributes: invalid_data } }, headers: { 'Authorization': 'Bearer ' + token.token }
           end.not_to change(Question, :count)
         end
       end
@@ -79,7 +79,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
         end
 
         it 'updates the question' do
-          put "/api/v1/questions/#{question.slug}", params: { data: { attributes: valid_question } }, headers: { 'Authorization': 'Bearer ' + token.token }
+          put "/api/v1/questions/#{question.id}", params: { data: { attributes: valid_question } }, headers: { 'Authorization': 'Bearer ' + token.token }
           expect(question.reload.title).to eq('new')
         end
       end
@@ -87,7 +87,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
       context '(invalid data)' do
         it 'does not update the question' do
           invalid_question = attributes_for :question, title: ''
-          put "/api/v1/questions/#{question.slug}", params: { data: { attributes: invalid_question } }, headers: { 'Authorization': 'Bearer ' + token.token }
+          put "/api/v1/questions/#{question.id}", params: { data: { attributes: invalid_question } }, headers: { 'Authorization': 'Bearer ' + token.token }
           expect(question.reload.title).not_to eq('new')
         end
       end
@@ -95,7 +95,7 @@ RSpec.describe 'Api::V1::QuestionsController', type: :request do
 
     describe 'deletes question' do
       it 'deletes question' do
-        delete "/api/v1/questions/#{question.slug}", headers: { 'Authorization': 'Bearer ' + token.token }
+        delete "/api/v1/questions/#{question.id}", headers: { 'Authorization': 'Bearer ' + token.token }
         expect(Question.exists?(question.id)).to be_falsy
       end
     end
