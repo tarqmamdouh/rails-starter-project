@@ -13,7 +13,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # Auth
 gem 'bcrypt', '~> 3.1.7'
-gem 'doorkeeper'
+gem 'doorkeeper', '5.0.0'
 
 # API
 gem 'rack-cors'
@@ -23,8 +23,12 @@ gem 'api-pagination'
 
 group :development, :test do
   gem 'pry'
+  gem 'rubocop', '0.59.2'
   gem 'rspec-rails'
-  gem 'rubocop'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers'
+  gem 'shoulda'
+  gem 'faker', require: false # Fixes an issue of localization
 end
 
 group :development do
@@ -33,3 +37,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+
+gem 'figaro', '~> 1.2'
+
+gem 'will_paginate', '~> 3.3'
