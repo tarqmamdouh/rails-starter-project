@@ -28,7 +28,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda'
-  gem 'faker', require: false # Fixes an issue of localization
 end
 
 group :development do
@@ -39,5 +38,5 @@ group :development do
 end
 
 gem 'figaro', '~> 1.2'
-
+gem 'faker'
 gem 'will_paginate', '~> 3.3'
